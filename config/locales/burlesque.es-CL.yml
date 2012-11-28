@@ -1,0 +1,32 @@
+'es-CL':
+  errors: &errors
+    messages:
+      role_taken: ya está asignado
+      group_taken: ya está asignado
+      invalid_param: '<%{param}> inválido, intenten con  <Class>, <String> o <Symbol>'
+      access_denied: No estas autorizado para realizar esta acción.
+  activerecord:
+    models:
+      role:
+        one: Privilegio
+        other: Privilegios
+      group:
+        one: Grupo
+        other: Grupos
+    attributes:
+      role:
+        name: Nombre
+        created_at: Creado
+        updated_at: Última actualización
+      group:
+        name: Nombre
+        roles: Privilegios
+        created_at: Creado
+        updated_at: Última actualización
+        internal: Uso exclusivo de Latamticket
+  authorizations:
+    read: Listar
+    show: Mostrar
+    create: Crear
+    update: Actualizar
+    destroy: Eliminar
