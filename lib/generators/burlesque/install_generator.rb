@@ -4,8 +4,8 @@ module Burlesque
       source_root File.expand_path('../templates', __FILE__)
 
       def generate_models
-        create_resource 'burlesque_role'
-        create_resource 'burlesque_authorization'
+        create_model 'burlesque_role'
+        create_model 'burlesque_authorization'
 
         create_table 'burlesque_roles'
         create_table 'burlesque_authorizations'
