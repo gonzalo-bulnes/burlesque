@@ -7,11 +7,11 @@ module Burlesque
       source_root File.expand_path('../templates', __FILE__)
 
       def generate_models
-        create_model 'role'
-        create_model 'authorization'
+        copy_model_and_migration 'role'
+        copy_model_and_migration 'authorization'
       end
 
-      def create_model name
+      def copy_model_and_migration name
         _model_name = name
         _table_name = name.pluralize
 
