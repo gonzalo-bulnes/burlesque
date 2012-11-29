@@ -4,11 +4,11 @@ module Burlesque
       source_root File.expand_path('../templates', __FILE__)
 
       def generate_models
-        copy_file "burlesque_role.rb",          "app/models/burlesque_role.rb"
-        copy_file "burlesque_authorization.rb", "app/models/burlesque_authorization.rb"
+        create_resource 'burlesque_role'
+        create_resource 'burlesque_authorization'
 
-        copy_file "create_burlesque_roles.rb",          "db/migrate/#{get_next_migration_number}_create_burlesque_roles.rb"
-        copy_file "create_burlesque_authorizations.rb", "db/migrate/#{get_next_migration_number}_create_burlesque_authorizations.rb"
+        create_table 'burlesque_roles'
+        create_table 'burlesque_authorizations'
       end
 
       def get_current_migration_number
@@ -17,8 +17,22 @@ module Burlesque
           if n > max then n else max end
         end
       end
+
       def get_next_migration_number
         ActiveRecord::Migration.new.next_migration_number(get_current_migration_number)
+      end
+
+      def migration_exists?(table_name)
+        Dir.glob("#{File.join(Rails.root, 'db/migrate')}/[0-9]*_*.rb").grep(/\d+_create_#{table_name}.rb$/).first
+      end
+
+      def create_model name
+        copy_file "#{name}.rb", "app/models/#{name}.rb"
+      end
+      def create_table name
+        unless migration_exists? name
+          copy_file "#{name}.rb", "db/migrate/#{get_next_migration_number}_create_#{name}.rb"
+        end
       end
     end
   end
