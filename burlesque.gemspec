@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["mespina"]
   s.email       = ["mespina.icc@gmail.com"]
   s.homepage    = ""
-  s.summary     = "Rolos y grupos para cancan"
-  s.description = "Rolos y grupos para cancan"
+  s.summary     = "Roles y Grupos"
+  s.description = "Crea estructura de roles y grupos para caulquier modelo, considera ademas las 3 tablas de join que pudiesen darse"
 
   s.rubyforge_project = "burlesque"
 
