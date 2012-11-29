@@ -1,4 +1,5 @@
 require 'rails/generators/migration'
+require 'thor/shell/basic.rb'
 
 module Burlesque
   module Generators
@@ -16,7 +17,7 @@ module Burlesque
           migration_template  "create_roles.rb", "db/migrate/create_roles.rb"
         else
           puts "#{role}"
-          Thor::Base.shell.say_status :exist, role, :blue
+          Thor::Shell::Basic.new.say_status :exist, role, :blue
         end
 
         ######## Authorization #######
