@@ -28,7 +28,7 @@ module Burlesque
         end
       end
 
-      def next_migration_number
+      def self.next_migration_number
         ActiveRecord::Migration.new.next_migration_number(get_current_migration_number)
       end
     end
