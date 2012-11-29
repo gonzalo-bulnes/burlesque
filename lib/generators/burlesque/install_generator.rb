@@ -4,7 +4,7 @@ module Burlesque
   module Generators
     class InstallGenerator < Rails::Generators::Base
       include Rails::Generators::Migration
-      source_root File.expand_path('../templates', __FILE__)
+      source_root File.expand_path('../templates',          __FILE__)
 
       def generate_models
         create_model 'role'
