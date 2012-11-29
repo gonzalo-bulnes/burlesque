@@ -22,7 +22,7 @@ module Burlesque
         ActiveRecord::Migration.new.next_migration_number(get_current_migration_number)
       end
 
-      def migration_exists?(table_name)
+      def exists_migration?(table_name)
         Dir.glob("#{File.join(Rails.root, 'db/migrate')}/[0-9]*_*.rb").grep(/\d+_create_#{table_name}.rb$/).first
       end
 
@@ -30,7 +30,7 @@ module Burlesque
         copy_file "#{name}.rb", "app/models/#{name}.rb"
       end
       def create_table name
-        unless migration_exists? name
+        unless exists_migration? name
           copy_file "create_#{name}.rb", "db/migrate/#{get_next_migration_number}_create_#{name}.rb"
         end
       end
