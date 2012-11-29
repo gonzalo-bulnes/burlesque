@@ -7,8 +7,8 @@ module Burlesque
         copy_file "burlesque_role.rb",          "app/models/burlesque_role.rb"
         copy_file "burlesque_authorization.rb", "app/models/burlesque_authorization.rb"
 
-        copy_file "create_burlesque_role.rb",          "db/migrate/#{get_next_migration_number}_create_burlesque_role.rb"
-        copy_file "create_burlesque_authorization.rb", "db/migrate/#{get_next_migration_number}_create_burlesque_authorization.rb"
+        copy_file "create_burlesque_roles.rb",          "db/migrate/#{get_next_migration_number}_create_burlesque_roles.rb"
+        copy_file "create_burlesque_authorizations.rb", "db/migrate/#{get_next_migration_number}_create_burlesque_authorizations.rb"
       end
 
       def get_current_migration_number
