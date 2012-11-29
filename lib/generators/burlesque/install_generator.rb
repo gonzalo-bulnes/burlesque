@@ -6,19 +6,17 @@ module Burlesque
       include Rails::Generators::Migration
       source_root File.expand_path('../templates', __FILE__)
 
-      def generate_models
-        copy_model_and_migration 'role'
-        copy_model_and_migration 'authorization'
-      end
-
-      def copy_model_and_migration name
-        _model_name = name
-        _table_name = name.pluralize
-
-        # Crea el modelo
-        copy_file           "#{_model_name}.rb",        "app/models/#{_model_name}.rb"
+      def copy_model_and_migration
+        # Crea el modelo Role
+        copy_file           "role.rb",         "app/models/role.rb"
         # Crea la tabla del modelo
-        migration_template  "create_#{_table_name}.rb", "db/migrate/create_#{_table_name}.rb"
+        migration_template  "create_roles.rb", "db/migrate/create_roles.rb"
+
+
+        # Crea el modelo Authorization
+        copy_file           "authorization.rb",         "app/models/authorization.rb"
+        # Crea la tabla del modelo
+        migration_template  "create_authorizations.rb", "db/migrate/create_authorizations.rb"
       end
 
 
