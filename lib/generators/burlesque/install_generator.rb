@@ -28,8 +28,8 @@ module Burlesque
         end
       end
 
-      def self.next_migration_number
-        ActiveRecord::Migration.new.next_migration_number(get_current_migration_number)
+      def self.next_migration_number path
+        ActiveRecord::Migration.new.next_migration_number(path)
       end
     end
   end
