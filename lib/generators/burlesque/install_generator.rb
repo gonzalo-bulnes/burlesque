@@ -21,15 +21,14 @@ module Burlesque
         migration_template  "create_#{_table_name}.rb", "db/migrate/create_#{_table_name}.rb"
       end
 
-      def get_current_migration_number
-        Dir.glob("#{Rails.root}/db/migrate/[0-9]*_*.rb").inject(0) do |max, file_path|
+
+      def self.next_migration_number path
+        new_migration_number = Dir.glob("#{Rails.root}/db/migrate/[0-9]*_*.rb").inject(0) do |max, file_path|
           n = File.basename(file_path).split('_', 2).first.to_i
           if n > max then n else max end
         end
-      end
 
-      def self.next_migration_number path
-        ActiveRecord::Migration.new.next_migration_number(get_current_migration_number)
+        ActiveRecord::Migration.new.next_migration_number(new_migration_number)
       end
     end
   end
