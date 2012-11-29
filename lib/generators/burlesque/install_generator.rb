@@ -23,12 +23,16 @@ module Burlesque
 
 
       def self.next_migration_number path
-        new_migration_number = Dir.glob("#{Rails.root}/db/migrate/[0-9]*_*.rb").inject(0) do |max, file_path|
-          n = File.basename(file_path).split('_', 2).first.to_i
-          if n > max then n else max end
+        unless @prev_migration_nr
+          @prev_migration_nr = Dir.glob("#{Rails.root}/db/migrate/[0-9]*_*.rb").inject(0) do |max, file_path|
+            n = File.basename(file_path).split('_', 2).first.to_i
+            if n > max then n else max end
+          end
+        else
+          @prev_migration_nr += 1
         end
 
-        ActiveRecord::Migration.new.next_migration_number(new_migration_number)
+        ActiveRecord::Migration.new.next_migration_number(@prev_migration_nr.to_s)
       end
     end
   end
