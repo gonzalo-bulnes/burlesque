@@ -29,7 +29,7 @@ module Burlesque
           migration_template  "create_authorizations.rb", "db/migrate/create_authorizations.rb"
         else
           puts "#{authorization}"
-          Thor::Base.shell.say_status :exist, role, :blue
+          Thor::Shell::Basic.new.say_status :exist, authorization, :blue
         end
       end
 
