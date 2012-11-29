@@ -7,8 +7,10 @@ module Burlesque
       source_root File.expand_path('../templates', __FILE__)
 
       def copy_model_and_migration
+        ######## Role #######
         # Crea el modelo Role
-        copy_file           "role.rb",         "app/models/role.rb"
+        copy_file "role.rb", "app/models/role.rb"
+
         # Crea la tabla del modelo
         if not role = Dir.glob("db/migrate/[0-9]*_*.rb").grep(/\d+_create_roles.rb$/).first
           migration_template  "create_roles.rb", "db/migrate/create_roles.rb"
@@ -16,9 +18,10 @@ module Burlesque
           puts "#{role}"
         end
 
-
+        ######## Authorization #######
         # Crea el modelo Authorization
-        copy_file           "authorization.rb",         "app/models/authorization.rb"
+        copy_file "authorization.rb", "app/models/authorization.rb"
+
         # Crea la tabla del modelo
         if not authorization = Dir.glob("db/migrate/[0-9]*_*.rb").grep(/\d+_create_authorizations.rb$/).first
           migration_template  "create_authorizations.rb", "db/migrate/create_authorizations.rb"
