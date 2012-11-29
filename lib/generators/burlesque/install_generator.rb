@@ -31,7 +31,7 @@ module Burlesque
       end
       def create_table name
         unless migration_exists? name
-          copy_file "#{name}.rb", "db/migrate/#{get_next_migration_number}_create_#{name}.rb"
+          copy_file "create_#{name}.rb", "db/migrate/#{get_next_migration_number}_create_#{name}.rb"
         end
       end
     end
