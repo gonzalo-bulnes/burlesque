@@ -11,21 +11,6 @@ module Burlesque
         create_model 'authorization'
       end
 
-      # def get_current_migration_number
-      #   Dir.glob("#{Rails.root}/db/migrate/[0-9]*_*.rb").inject(0) do |max, file_path|
-      #     n = File.basename(file_path).split('_', 2).first.to_i
-      #     if n > max then n else max end
-      #   end
-      # end
-
-      # def get_next_migration_number
-      #   ActiveRecord::Migration.new.next_migration_number(get_current_migration_number)
-      # end
-
-      # def migrated? table_name
-      #   Dir.glob("#{File.join(Rails.root, 'db/migrate')}/[0-9]*_*.rb").grep(/\d+_create_#{table_name}.rb$/).first
-      # end
-
       def create_model name
         _model_name = name
         _table_name = name.pluralize
@@ -34,6 +19,17 @@ module Burlesque
         copy_file           "#{_model_name}.rb",        "app/models/#{_model_name}.rb"
         # Crea la tabla del modelo
         migration_template  "create_#{_table_name}.rb", "db/migrate/create_#{_table_name}.rb"
+      end
+
+      def get_current_migration_number
+        Dir.glob("#{Rails.root}/db/migrate/[0-9]*_*.rb").inject(0) do |max, file_path|
+          n = File.basename(file_path).split('_', 2).first.to_i
+          if n > max then n else max end
+        end
+      end
+
+      def next_migration_number
+        ActiveRecord::Migration.new.next_migration_number(get_current_migration_number)
       end
     end
   end
