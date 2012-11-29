@@ -1,5 +1,5 @@
 module Burlesque
-  module BurlesqueRole
+  module Role
     # has_many :role_groups
     # has_many :groups, through: :role_groups, dependent: :destroy
 

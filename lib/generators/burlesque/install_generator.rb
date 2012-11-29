@@ -1,38 +1,39 @@
+require 'rails/generators/migration'
+
 module Burlesque
   module Generators
     class InstallGenerator < Rails::Generators::Base
+      include Rails::Generators::Migration
       source_root File.expand_path('../templates', __FILE__)
 
       def generate_models
-        create_model 'burlesque_role'
-        create_model 'burlesque_authorization'
-
-        create_table 'burlesque_roles'
-        create_table 'burlesque_authorizations'
+        create_model 'role'
+        create_model 'authorization'
       end
 
-      def get_current_migration_number
-        Dir.glob("#{Rails.root}/db/migrate/[0-9]*_*.rb").inject(0) do |max, file_path|
-          n = File.basename(file_path).split('_', 2).first.to_i
-          if n > max then n else max end
-        end
-      end
+      # def get_current_migration_number
+      #   Dir.glob("#{Rails.root}/db/migrate/[0-9]*_*.rb").inject(0) do |max, file_path|
+      #     n = File.basename(file_path).split('_', 2).first.to_i
+      #     if n > max then n else max end
+      #   end
+      # end
 
-      def get_next_migration_number
-        ActiveRecord::Migration.new.next_migration_number(get_current_migration_number)
-      end
+      # def get_next_migration_number
+      #   ActiveRecord::Migration.new.next_migration_number(get_current_migration_number)
+      # end
 
-      def migrated? table_name
-        Dir.glob("#{File.join(Rails.root, 'db/migrate')}/[0-9]*_*.rb").grep(/\d+_create_#{table_name}.rb$/).first
-      end
+      # def migrated? table_name
+      #   Dir.glob("#{File.join(Rails.root, 'db/migrate')}/[0-9]*_*.rb").grep(/\d+_create_#{table_name}.rb$/).first
+      # end
 
       def create_model name
-        copy_file "#{name}.rb", "app/models/#{name}.rb"
-      end
-      def create_table name
-        unless migrated? name
-          copy_file "create_#{name}.rb", "db/migrate/#{get_next_migration_number}_create_#{name}.rb"
-        end
+        _model_name = name
+        _table_name = name.pluralize
+
+        # Crea el modelo
+        copy_file           "#{_model_name}.rb",        "app/models/#{_model_name}.rb"
+        # Crea la tabla del modelo
+        migration_template  "create_#{_table_name}.rb", "db/migrate/create_#{_table_name}.rb"
       end
     end
   end
