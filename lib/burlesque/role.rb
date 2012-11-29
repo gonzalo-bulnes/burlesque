@@ -1,7 +1,7 @@
 module Burlesque
   module Role
-    # has_many :role_groups
-    # has_many :groups, through: :role_groups, dependent: :destroy
+    has_many :role_groups
+    has_many :groups, through: :role_groups, dependent: :destroy
 
     has_many :authorizations, dependent: :destroy
     def admins

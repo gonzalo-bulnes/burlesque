@@ -16,6 +16,7 @@ module Burlesque
           migration_template  "create_roles.rb", "db/migrate/create_roles.rb"
         else
           puts "#{role}"
+          base.shell.say_status :exist, role, :blue
         end
 
         ######## Authorization #######
@@ -27,6 +28,7 @@ module Burlesque
           migration_template  "create_authorizations.rb", "db/migrate/create_authorizations.rb"
         else
           puts "#{authorization}"
+          base.shell.say_status :exist, role, :blue
         end
       end
 
