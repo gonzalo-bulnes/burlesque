@@ -16,7 +16,7 @@ module Burlesque
         # Crea el modelo Authorization
         copy_file           "authorization.rb",         "app/models/authorization.rb"
         # Crea la tabla del modelo
-        if file = Dir.glob("db/migrate/[0-9]*_*.rb").grep(/\d+_create_authorizations.rb$/).first
+        if not file = Dir.glob("db/migrate/[0-9]*_*.rb").grep(/\d+_create_authorizations.rb$/).first
           migration_template  "create_authorizations.rb", "db/migrate/create_authorizations.rb"
         else
           puts "#{file}"
