@@ -16,7 +16,6 @@ module Burlesque
         if not role = Dir.glob("db/migrate/[0-9]*_*.rb").grep(/\d+_create_roles.rb$/).first
           migration_template  "create_roles.rb", "db/migrate/create_roles.rb"
         else
-          puts "#{role}"
           Thor::Shell::Basic.new.say_status :exist, role, :blue
         end
 
@@ -28,7 +27,6 @@ module Burlesque
         if not authorization = Dir.glob("db/migrate/[0-9]*_*.rb").grep(/\d+_create_authorizations.rb$/).first
           migration_template  "create_authorizations.rb", "db/migrate/create_authorizations.rb"
         else
-          puts "#{authorization}"
           Thor::Shell::Basic.new.say_status :exist, authorization, :blue
         end
       end
