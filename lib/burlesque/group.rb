@@ -3,16 +3,12 @@ module Burlesque
     has_many :role_groups
     has_many :roles, through: :role_groups, dependent: :destroy, after_remove: :remove_roles_from_admin
 
-
-    scope :latamticket, where(internal: true)
-    scope :enterprise,  where('internal = ? or internal = ?', false, nil)
-
     has_many :admin_groups, dependent: :destroy
     def admins
       admin_groups.map &:adminable
     end
 
-    attr_accessible :name, :role_ids, :internal
+    attr_accessible :name, :role_ids
 
     validates :name, presence: true, uniqueness: true
 

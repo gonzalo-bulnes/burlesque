@@ -23,7 +23,6 @@
         roles: Privilegios
         created_at: Creado
         updated_at: Última actualización
-        internal: Uso exclusivo de Latamticket
   authorizations:
     read: Listar
     show: Mostrar
