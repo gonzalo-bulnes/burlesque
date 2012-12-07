@@ -1,5 +1,6 @@
+require "burlesque/admin_group"
+require "burlesque/authorization"
+require "burlesque/group"
+require "burlesque/role"
+require "burlesque/role_group"
 require "burlesque/version"
-
-module Burlesque
-  # Your code goes here...
-end
