@@ -29,6 +29,39 @@ module Burlesque
         else
           Thor::Shell::Basic.new.say_status :exist, authorization, :blue
         end
+
+        ######## Group #######
+        # Crea el modelo Group
+        copy_file "group.rb", "app/models/group.rb"
+
+        # Crea la tabla del modelo
+        if not group = Dir.glob("db/migrate/[0-9]*_*.rb").grep(/\d+_create_groups.rb$/).first
+          migration_template  "create_groups.rb", "db/migrate/create_groups.rb"
+        else
+          Thor::Shell::Basic.new.say_status :exist, group, :blue
+        end
+
+        ######## Role-Group #######
+        # Crea el modelo Role-Group
+        copy_file "role_group.rb", "app/models/role_group.rb"
+
+        # Crea la tabla del modelo
+        if not role_group = Dir.glob("db/migrate/[0-9]*_*.rb").grep(/\d+_create_role_groups.rb$/).first
+          migration_template  "create_role_groups.rb", "db/migrate/create_role_groups.rb"
+        else
+          Thor::Shell::Basic.new.say_status :exist, role_group, :blue
+        end
+
+        ######## Admin-Group #######
+        # Crea el modelo Admin-Group
+        copy_file "admin_group.rb", "app/models/admin_group.rb"
+
+        # Crea la tabla del modelo
+        if not admin_group = Dir.glob("db/migrate/[0-9]*_*.rb").grep(/\d+_create_admin_groups.rb$/).first
+          migration_template  "create_admin_groups.rb", "db/migrate/create_admin_groups.rb"
+        else
+          Thor::Shell::Basic.new.say_status :exist, admin_group, :blue
+        end
       end
 
 
