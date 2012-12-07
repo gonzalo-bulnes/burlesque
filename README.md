@@ -22,4 +22,5 @@ Finally, bootstrap your Rails app, for example:
 
 ```
 rails generate burlesque:install
+rake db:migrate
 ```
