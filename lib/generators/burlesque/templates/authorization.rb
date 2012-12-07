@@ -1,4 +1,4 @@
-class Authorization
+class Authorization < ActiveRecord::Base
   belongs_to :role
   belongs_to :authorizable, polymorphic: true
 

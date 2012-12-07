@@ -1,4 +1,4 @@
-class AdminGroup
+class AdminGroup < ActiveRecord::Base
   belongs_to :group
   belongs_to :adminable, polymorphic: true
 

@@ -1,4 +1,4 @@
-class Group
+class Group < ActiveRecord::Base
   has_many :role_groups
     has_many :roles, through: :role_groups, dependent: :destroy, after_remove: :remove_roles_from_admin
 
