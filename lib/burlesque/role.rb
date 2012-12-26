@@ -43,26 +43,26 @@ module Burlesque
     #     translate = I18n.t(action.to_sym, scope: :authorizations) + ' ' + model.classify.constantize.model_name.human(count: count)
     #   end
 
-    # module ClassMethods
-    #   def for model
-    #     if model.class == String
-    #       resource = model.classify.constantize.model_name.underscore
-    #     elsif model.class == Symbol
-    #       resource = model.to_s.classify.constantize.model_name.underscore
-    #     elsif model.class == Class
-    #       resource = model.model_name.underscore
-    #     end
+    module ClassMethods
+      def for model
+        if model.class == String
+          resource = model.classify.constantize.model_name.underscore
+        elsif model.class == Symbol
+          resource = model.to_s.classify.constantize.model_name.underscore
+        elsif model.class == Class
+          resource = model.model_name.underscore
+        end
 
-    #     if resource
-    #       Role.create(name:    "read_#{resource.pluralize}") unless Role.where(name:    "read_#{resource.pluralize}").any?
-    #       Role.create(name:    "show_#{resource}")           unless Role.where(name:    "show_#{resource}").any?
-    #       Role.create(name:  "create_#{resource}")           unless Role.where(name:  "create_#{resource}").any?
-    #       Role.create(name:  "update_#{resource}")           unless Role.where(name:  "update_#{resource}").any?
-    #       Role.create(name: "destroy_#{resource}")           unless Role.where(name: "destroy_#{resource}").any?
-    #     else
-    #       raise I18n.t('errors.messages.invalid_param', param: model.class)
-    #     end
-    #   end
-    # end
+        if resource
+          Role.create(name:    "read_#{resource.pluralize}") unless Role.where(name:    "read_#{resource.pluralize}").any?
+          Role.create(name:    "show_#{resource}")           unless Role.where(name:    "show_#{resource}").any?
+          Role.create(name:  "create_#{resource}")           unless Role.where(name:  "create_#{resource}").any?
+          Role.create(name:  "update_#{resource}")           unless Role.where(name:  "update_#{resource}").any?
+          Role.create(name: "destroy_#{resource}")           unless Role.where(name: "destroy_#{resource}").any?
+        else
+          raise I18n.t('errors.messages.invalid_param', param: model.class)
+        end
+      end
+    end
   end
 end
