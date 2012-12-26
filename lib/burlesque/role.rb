@@ -5,11 +5,11 @@ module Burlesque
     extend ActiveSupport::Concern
 
     included do
-      # has_many :role_groups
-      # has_many :groups, through: :role_groups, dependent: :destroy
+      has_many :role_groups
+      has_many :groups, through: :role_groups, dependent: :destroy
 
-      # has_many :authorizations, dependent: :destroy
-      # # for has_many :admins relations see admins function
+      has_many :authorizations, dependent: :destroy
+      # for has_many :admins relations see admins function
 
       attr_accessible :name
       validates :name, presence: true, uniqueness: true
