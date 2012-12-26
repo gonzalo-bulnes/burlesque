@@ -11,6 +11,7 @@ module Burlesque
   include Burlesque::Admin
 CONTENT
 
+        puts "#{attributes.inspect}"
         inject_into_class(File.join("app", "models", "#{class_name}.rb"), class_name, content)
       end
     end
