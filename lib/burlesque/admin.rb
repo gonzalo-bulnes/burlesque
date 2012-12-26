@@ -26,6 +26,16 @@ module Burlesque
         self.roles.map(&:name).include?(role_name.to_s)
       end
 
+      # Public: Indica si tiene un grupo en particular.
+      #
+      # group -  el grupo que se quiere consultar, puede ser un Group o Group.name
+      #
+      # Returns Boolean.
+      def group? group
+        group_name = group.respond_to?(:name) ? group.name : group
+        self.groups.map(&:name).include?(group_name.to_s)
+      end
+
       # Public: Indica si un rol en particular esta presente en los grupos que tiene asignados.
       #
       # role -  el rol que se quiere consultar, puede ser un Role o Role.name
@@ -39,51 +49,50 @@ module Burlesque
         false
       end
 
-      # Public: Permite setear los grupos que se indican.
-      # Eliminando los grupos que no esten en la lista.
-      #
-      # ids - id's de los Roles que se desean asignar destructivamente.
-      #
-      # Returns nothing.
-      def group_ids=(ids)
-        ids.each do |gi|
-          group = Group.find(gi)
-          self.groups << group unless self.groups.include?(group)
-        end
+      # # Public: Permite setear los grupos que se indican.
+      # # Eliminando los grupos que no esten en la lista.
+      # #
+      # # ids - id's de los Roles que se desean asignar destructivamente.
+      # #
+      # # Returns nothing.
+      # def group_ids=(ids)
+      #   ids.each do |gi|
+      #     group = Group.find(gi)
+      #     self.groups << group unless self.groups.include?(group)
+      #   end
 
-        to_deletes = []
-        admin_groups.each do |admin_group|
-          group = admin_group.group
-          to_deletes << group unless ids.include?(group.id.to_s)# or ids.include?(group.id)
-        end
+      #   to_deletes = []
+      #   self.groups.each do |group|
+      #     to_deletes << group unless ids.include?(group.id.to_s)# or ids.include?(group.id)
+      #   end
 
-        to_deletes.each do |role|
-          self.roles.delete(role) if self.role?(role)
-        end
-      end
+      #   to_deletes.each do |group|
+      #     self.groups.delete(group) if self.group?(group)
+      #   end
+      # end
 
-      # Public: Permite setear los roles que se indican.
-      # Eliminando los roles que no esten en la lista,
-      # salvo en caso de estar presente por asignacion de un grupo.
-      #
-      # ids - id's de los Roles que se desean asignar destructivamente.
-      #
-      # Returns nothing.
-      def role_ids=(ids)
-        ids.each do |role_id|
-          role = Role.find(role_id)
-          self.roles << role unless self.role?(role)
-        end
+      # # Public: Permite setear los roles que se indican.
+      # # Eliminando los roles que no esten en la lista,
+      # # salvo en caso de estar presente por asignacion de un grupo.
+      # #
+      # # ids - id's de los Roles que se desean asignar destructivamente.
+      # #
+      # # Returns nothing.
+      # def role_ids=(ids)
+      #   ids.each do |role_id|
+      #     role = Role.find(role_id)
+      #     self.roles << role unless self.role?(role)
+      #   end
 
-        to_deletes = []
-        self.roles.each do |role|
-          to_deletes << role unless ids.include?(role.id.to_s) or self.role_in_groups?(role)# or ids.include?(role.id)
-        end
+      #   to_deletes = []
+      #   self.roles.each do |role|
+      #     to_deletes << role unless ids.include?(role.id.to_s) or self.role_in_groups?(role)# or ids.include?(role.id)
+      #   end
 
-        to_deletes.each do |role|
-          self.roles.delete(role) if self.roles.include?(role)
-        end
-      end
+      #   to_deletes.each do |role|
+      #     self.roles.delete(role) if self.roles.include?(role)
+      #   end
+      # end
 
 
       private
