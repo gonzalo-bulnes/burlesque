@@ -11,8 +11,8 @@ module Burlesque
       # has_many :authorizations, dependent: :destroy
       # # for has_many :admins relations see admins function
 
-      # attr_accessible :name
-      # validates :name, presence: true, uniqueness: true
+      attr_accessible :name
+      validates :name, presence: true, uniqueness: true
 
 
       scope :action,        lambda { |action| where('name LIKE ?',                          "#{action}_%") }
