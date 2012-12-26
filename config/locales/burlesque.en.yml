@@ -1,0 +1,31 @@
+en:
+  errors: &errors
+    messages:
+      role_taken: already assigned
+      group_taken: already assigned
+      invalid_param: '<%{param}> invalid, try with <Class>, <String> or <Symbol>'
+      access_denied: You are not authorized to perform this action.
+  activerecord:
+    models:
+      role:
+        one: Privilege
+        other: Privileges
+      group:
+        one: Group
+        other: Groups
+    attributes:
+      role:
+        name: Name
+        created_at: created
+        updated_at: updated
+      group:
+        name: Name
+        roles: Privileges
+        created_at: created
+        updated_at: updated
+  authorizations:
+    read: List
+    show: Show
+    create: Create
+    update: Update
+    destroy: Destroy
