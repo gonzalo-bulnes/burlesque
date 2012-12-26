@@ -11,7 +11,7 @@ module Burlesque
   include Burlesque::Admin
 CONTENT
 
-        inject_into_class(File.join("app", "models", "#{file_path}.rb"), class_name, content)
+        inject_into_class(File.join("app", "models", "#{class_name}.rb"), class_name, content)
       end
     end
   end
