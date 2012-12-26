@@ -28,11 +28,12 @@ module Burlesque
 
       # Public: Indica si el grupo tiene un rol en particular.
       #
-      # name -  el nombre del rol que se quiere consultar.
+      # role -  el rol que se quiere consultar, puede ser un Role o Role.name
       #
       # Returns Boolean.
-      def role? name
-        self.roles.map(&:name).include?(name.to_s)
+      def role? role
+        role_name = role.respond_to?(:name) ? role.name : role
+        self.roles.map(&:name).include?(role_name.to_s)
       end
 
       # Public: Setea los roles que se indican al grupo.
