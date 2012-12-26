@@ -13,10 +13,6 @@ module Burlesque
 
       attr_accessible :group_ids,
                       :role_ids
-
-      validates       :name,
-                      presence: true,
-                      uniqueness: true
     end
 
     module InstanceMethods
