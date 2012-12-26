@@ -1,3 +1,3 @@
 class Group < ActiveRecord::Base
-  include Burlesque::Role
+  include Burlesque::Group
 end
