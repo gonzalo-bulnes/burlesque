@@ -22,11 +22,21 @@ module Burlesque
     end
 
     module InstanceMethods
+      # Public: Relacion a muchos usuarios
+      #
+      # Se usa esta funcion dado que la tabla de administrador es polimorfica.
+      #
+      # Returns los administradores que tienen el rol en cuestion.
       def admins
         authorizations.map &:authorizable
       end
 
       # Public: Traduce el nombre de un rol.
+      #
+      # Primero revisa si existe una traducción para el rol bajo el scope de autorizaciones,
+      # luego si el no existe una traducción intenta traducir el nombre del rol usando la
+      # traduccion de Burleque, que traduce la acción por defecto e intenta usar las traducciones
+      # definidas para cada modelo
       #
       # Returns el nombre del rol ya traducido.
       def translate_name
@@ -34,10 +44,9 @@ module Burlesque
         return translate unless translate.include?('translation missing:')
 
 
-        action = name.split('_', 2).first
-        model  = name.split('_', 2).last
+        action, model = name.split('_', 2)
 
-        count  = model == model.pluralize ? 2 : 1
+        count = (model == model.pluralize) ? 2 : 1
         model = model.pluralize
 
         translate = I18n.t(action.to_sym, scope: :authorizations) + ' ' + model.classify.constantize.model_name.human(count: count)
@@ -45,6 +54,8 @@ module Burlesque
     end
 
     module ClassMethods
+      # TODO
+      # Mejorar el retorno, para saber que paso, ej: si se agregaron los 5 roles o si ya existen
       def for model
         if model.class == String
           resource = model.classify.constantize.model_name.underscore
