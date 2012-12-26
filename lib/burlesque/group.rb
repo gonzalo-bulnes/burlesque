@@ -9,9 +9,7 @@ module Burlesque
       has_many :roles, through: :role_groups, dependent: :destroy, after_remove: :remove_roles_from_admin
 
       has_many :admin_groups, dependent: :destroy
-      def admins
-        admin_groups.map &:adminable
-      end
+      # for has_many :admins relations see admins function
 
       attr_accessible :name, :role_ids, :internal
 
@@ -19,6 +17,15 @@ module Burlesque
     end
 
     module InstanceMethods
+      # Public: Relacion a muchos usuarios
+      #
+      # Se usa esta funcion dado que la tabla de administrador es polimorfica.
+      #
+      # Returns los administradores que tienen el rol en cuestion.
+      def admins
+        admin_groups.map &:adminable
+      end
+
       # Public: Indica si el grupo tiene un rol en particular.
       #
       # name -  el nombre del rol que se quiere consultar.
