@@ -1,5 +1,4 @@
 require 'active_support/concern'
-require 'find'
 
 module Burlesque
   module Admin
