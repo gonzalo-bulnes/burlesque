@@ -21,27 +21,28 @@ module Burlesque
       scope :not_resource,  lambda { |model|  where('name NOT LIKE ? AND name NOT LIKE ?',  "%_#{model.to_s.singularize}", "%_#{model.to_s.pluralize}") }
     end
 
-    # module InstanceMethods
-    #   def admins
-    #     authorizations.map &:authorizable
-    #   end
+    module InstanceMethods
+      def admins
+        authorizations.map &:authorizable
+      end
 
-    #   # Public: Traduce el nombre de un rol.
-    #   #
-    #   # Returns el nombre del rol ya traducido.
-    #   def translate_name
-    #     translate = I18n.t(name.to_sym, scope: :authorizations)
-    #     return translate unless translate.include?('translation missing:')
+      # Public: Traduce el nombre de un rol.
+      #
+      # Returns el nombre del rol ya traducido.
+      def translate_name
+        translate = I18n.t(name.to_sym, scope: :authorizations)
+        return translate unless translate.include?('translation missing:')
 
 
-    #     action = name.split('_', 2).first
-    #     model  = name.split('_', 2).last
+        action = name.split('_', 2).first
+        model  = name.split('_', 2).last
 
-    #     count  = model == model.pluralize ? 2 : 1
-    #     model = model.pluralize
+        count  = model == model.pluralize ? 2 : 1
+        model = model.pluralize
 
-    #     translate = I18n.t(action.to_sym, scope: :authorizations) + ' ' + model.classify.constantize.model_name.human(count: count)
-    #   end
+        translate = I18n.t(action.to_sym, scope: :authorizations) + ' ' + model.classify.constantize.model_name.human(count: count)
+      end
+    end
 
     module ClassMethods
       def for model
