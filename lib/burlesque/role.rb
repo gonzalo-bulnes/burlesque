@@ -54,11 +54,11 @@ module Burlesque
         end
 
         if resource
-          Role.create(name:    "read_#{resource.pluralize}") unless Role.where(name:    "read_#{resource.pluralize}").any?
-          Role.create(name:    "show_#{resource}")           unless Role.where(name:    "show_#{resource}").any?
-          Role.create(name:  "create_#{resource}")           unless Role.where(name:  "create_#{resource}").any?
-          Role.create(name:  "update_#{resource}")           unless Role.where(name:  "update_#{resource}").any?
-          Role.create(name: "destroy_#{resource}")           unless Role.where(name: "destroy_#{resource}").any?
+          self.create(name:    "read_#{resource.pluralize}") unless self.where(name:    "read_#{resource.pluralize}").any?
+          self.create(name:    "show_#{resource}")           unless self.where(name:    "show_#{resource}").any?
+          self.create(name:  "create_#{resource}")           unless self.where(name:  "create_#{resource}").any?
+          self.create(name:  "update_#{resource}")           unless self.where(name:  "update_#{resource}").any?
+          self.create(name: "destroy_#{resource}")           unless self.where(name: "destroy_#{resource}").any?
         else
           raise I18n.t('errors.messages.invalid_param', param: model.class)
         end
