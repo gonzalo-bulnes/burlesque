@@ -85,5 +85,10 @@ module Burlesque
         end
       end
     end
+    module ClassMethods
+      def find id
+        self.find id
+      end
+    end
   end
 end
