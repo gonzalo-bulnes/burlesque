@@ -75,10 +75,6 @@ module Burlesque
           raise I18n.t('errors.messages.invalid_param', param: model.class)
         end
       end
-
-      def find id
-        self.find id
-      end
     end
   end
 end
