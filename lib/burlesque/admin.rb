@@ -49,12 +49,12 @@ module Burlesque
         false
       end
 
-      # # Public: Permite setear los grupos que se indican.
-      # # Eliminando los grupos que no esten en la lista.
-      # #
-      # # ids - id's de los Roles que se desean asignar destructivamente.
-      # #
-      # # Returns nothing.
+      # Public: Permite setear los grupos que se indican.
+      # Eliminando los grupos que no esten en la lista.
+      #
+      # ids - id's de los Roles que se desean asignar destructivamente.
+      #
+      # Returns nothing.
       def group_ids=(ids)
         ids.each do |gi|
           group = ::Group.find(gi)
@@ -71,28 +71,28 @@ module Burlesque
         end
       end
 
-      # # Public: Permite setear los roles que se indican.
-      # # Eliminando los roles que no esten en la lista,
-      # # salvo en caso de estar presente por asignacion de un grupo.
-      # #
-      # # ids - id's de los Roles que se desean asignar destructivamente.
-      # #
-      # # Returns nothing.
-      # def role_ids=(ids)
-      #   ids.each do |role_id|
-      #     role = Role.find(role_id)
-      #     self.roles << role unless self.role?(role)
-      #   end
+      # Public: Permite setear los roles que se indican.
+      # Eliminando los roles que no esten en la lista,
+      # salvo en caso de estar presente por asignacion de un grupo.
+      #
+      # ids - id's de los Roles que se desean asignar destructivamente.
+      #
+      # Returns nothing.
+      def role_ids=(ids)
+        ids.each do |role_id|
+          role = ::Role.find(role_id)
+          self.roles << role unless self.role?(role)
+        end
 
-      #   to_deletes = []
-      #   self.roles.each do |role|
-      #     to_deletes << role unless ids.include?(role.id.to_s) or self.role_in_groups?(role)# or ids.include?(role.id)
-      #   end
+        to_deletes = []
+        self.roles.each do |role|
+          to_deletes << role unless ids.include?(role.id.to_s) or self.role_in_groups?(role)# or ids.include?(role.id)
+        end
 
-      #   to_deletes.each do |role|
-      #     self.roles.delete(role) if self.roles.include?(role)
-      #   end
-      # end
+        to_deletes.each do |role|
+          self.roles.delete(role) if self.roles.include?(role)
+        end
+      end
 
 
       private
