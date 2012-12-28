@@ -55,21 +55,21 @@ module Burlesque
       # # ids - id's de los Roles que se desean asignar destructivamente.
       # #
       # # Returns nothing.
-      # def group_ids=(ids)
-      #   ids.each do |gi|
-      #     group = Group.find(gi)
-      #     self.groups << group unless self.groups.include?(group)
-      #   end
+      def group_ids=(ids)
+        ids.each do |gi|
+          group = ::Group.find(gi)
+          self.groups << group unless self.groups.include?(group)
+        end
 
-      #   to_deletes = []
-      #   self.groups.each do |group|
-      #     to_deletes << group unless ids.include?(group.id.to_s)# or ids.include?(group.id)
-      #   end
+        to_deletes = []
+        self.groups.each do |group|
+          to_deletes << group unless ids.include?(group.id.to_s)# or ids.include?(group.id)
+        end
 
-      #   to_deletes.each do |group|
-      #     self.groups.delete(group) if self.group?(group)
-      #   end
-      # end
+        to_deletes.each do |group|
+          self.groups.delete(group) if self.group?(group)
+        end
+      end
 
       # # Public: Permite setear los roles que se indican.
       # # Eliminando los roles que no esten en la lista,
