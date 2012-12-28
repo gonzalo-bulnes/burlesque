@@ -56,8 +56,8 @@ module Burlesque
       #
       # Returns nothing.
       def group_ids=(ids)
-        ids.each do |gi|
-          group = ::Group.find(gi)
+        ids.each do |group_id|
+          group = ::Group.find(group_id)
           self.groups << group unless self.groups.include?(group)
         end
 
@@ -93,7 +93,6 @@ module Burlesque
           self.roles.delete(role) if self.roles.include?(role)
         end
       end
-
 
       private
       # Public: Permite eliminar los roles de un grupo eliminado.
