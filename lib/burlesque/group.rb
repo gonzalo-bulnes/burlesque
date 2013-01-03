@@ -44,7 +44,7 @@ module Burlesque
       # Returns nothing.
       def role_ids=(ids)
         ids.each do |ri|
-          role = Role.find(ri)
+          role = ::Role.find(ri)
           self.roles << role unless self.roles.include? role
         end
 
