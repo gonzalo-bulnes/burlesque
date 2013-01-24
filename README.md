@@ -37,9 +37,9 @@ class Ability
   def initialize(user)
     if user
       user.roles.each do |role|
-        action = role.name.split('_', 2).first
-        model  = role.name.split('_', 2).last.pluralize.classify.constantize
-        can action.to_sym, model
+        action = role.action_sym
+        model  = role.resource_class
+        can action, model
       end
     end
   end
