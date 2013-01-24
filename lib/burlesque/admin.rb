@@ -80,8 +80,10 @@ module Burlesque
       # Returns nothing.
       def role_ids=(ids)
         ids.each do |role_id|
-          role = ::Role.find(role_id)
-          self.roles << role unless self.role?(role)
+          if ri.presence
+            role = ::Role.find(role_id)
+            self.roles << role unless self.role?(role)
+          end
         end
 
         to_deletes = []
