@@ -15,10 +15,10 @@ module Burlesque
       validates :name, presence: true, uniqueness: true
 
 
-      scope :action,        lambda { |action| where('name LIKE ?',                          "#{action}_%") }
-      scope :not_action,    lambda { |action| where('name NOT LIKE ?',                      "#{action}_%") }
-      scope :resource,      lambda { |model|  where('name LIKE ? or name LIKE ?',           "%_#{model.to_s.singularize}", "%_#{model.to_s.pluralize}") }
-      scope :not_resource,  lambda { |model|  where('name NOT LIKE ? AND name NOT LIKE ?',  "%_#{model.to_s.singularize}", "%_#{model.to_s.pluralize}") }
+      scope :action,        lambda { |action| where('name LIKE ?',     "%##{action}")     }
+      scope :not_action,    lambda { |action| where('name NOT LIKE ?', "%##{action}")     }
+      scope :resource,      lambda { |model|  where('name LIKE ?',     "%#{model.to_s}#") }
+      scope :not_resource,  lambda { |model|  where('name NOT LIKE ?', "%#{model.to_s}#") }
     end
 
     module InstanceMethods
@@ -43,13 +43,28 @@ module Burlesque
         translate = I18n.t(name.to_sym, scope: :authorizations)
         return translate unless translate.include?('translation missing:')
 
+        translate = I18n.t(action_sym, scope: :authorizations) + ' ' + resource_class.model_name.human
+      end
 
-        action, model = name.split('_', 2)
+      # Public: Entrega el recurso asociado al rol.
+      #
+      # Returns Constant.
+      def resource_class
+        name.split('#', 2).first.pluralize.classify.constantize
+      end
 
-        count = (model == model.pluralize) ? 2 : 1
-        model = model.pluralize
+      # Public: Entrega la accion asociada al rol.
+      #
+      # Returns Symbol.
+      def action_sym
+        name.split('#', 2).last.to_sym
+      end
 
-        translate = I18n.t(action.to_sym, scope: :authorizations) + ' ' + model.classify.constantize.model_name.human(count: count)
+      # Public: Entrega la accion y modelo asociado al rol.
+      #
+      # Returns Symbol.
+      def get_action_and_model
+        [action_sym, resource_class]
       end
     end
 
@@ -66,11 +81,10 @@ module Burlesque
         end
 
         if resource
-          self.create(name:    "read_#{resource.pluralize}") unless self.where(name:    "read_#{resource.pluralize}").any?
-          self.create(name:    "show_#{resource}")           unless self.where(name:    "show_#{resource}").any?
-          self.create(name:  "create_#{resource}")           unless self.where(name:  "create_#{resource}").any?
-          self.create(name:  "update_#{resource}")           unless self.where(name:  "update_#{resource}").any?
-          self.create(name: "destroy_#{resource}")           unless self.where(name: "destroy_#{resource}").any?
+          self.create(name: "#{resource}#read")     unless self.where(name: "#{resource}#read"   ).any?
+          self.create(name: "#{resource}#create")   unless self.where(name: "#{resource}#create" ).any?
+          self.create(name: "#{resource}#update")   unless self.where(name: "#{resource}#update" ).any?
+          self.create(name: "#{resource}#destroy")  unless self.where(name: "#{resource}#destroy").any?
         else
           raise I18n.t('errors.messages.invalid_param', param: model.class)
         end
