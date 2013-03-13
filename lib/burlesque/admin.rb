@@ -52,13 +52,15 @@ module Burlesque
       # Public: Permite setear los grupos que se indican.
       # Eliminando los grupos que no esten en la lista.
       #
-      # ids - id's de los Roles que se desean asignar destructivamente.
+      # ids - id's de los Grupos que se desean asignar destructivamente.
       #
       # Returns nothing.
       def group_ids=(ids)
         ids.each do |group_id|
-          group = ::Group.find(group_id)
-          self.groups << group unless self.groups.include?(group)
+          if group_id.presence
+            group = ::Group.find(group_id)
+            self.groups << group unless self.groups.include?(group)
+          end
         end
 
         to_deletes = []
