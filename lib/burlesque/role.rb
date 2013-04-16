@@ -17,8 +17,8 @@ module Burlesque
 
       scope :action,        lambda { |action| where('name LIKE ?',     "%##{action}")     }
       scope :not_action,    lambda { |action| where('name NOT LIKE ?', "%##{action}")     }
-      scope :resource,      lambda { |model|  where('name LIKE ?',     "%#{model.to_s}#") }
-      scope :not_resource,  lambda { |model|  where('name NOT LIKE ?', "%#{model.to_s}#") }
+      scope :resource,      lambda { |model|  where('name LIKE ?',     "#{model.to_s}#%") }
+      scope :not_resource,  lambda { |model|  where('name NOT LIKE ?', "#{model.to_s}#%") }
     end
 
     module InstanceMethods
