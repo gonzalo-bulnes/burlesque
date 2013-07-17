@@ -9,7 +9,7 @@ Installation
 Before you can use the generator, add the gem to your project's Gemfile as follows:
 
 ```
-gem 'burlesque', :git => 'git@gitlab.acid.cl:burlesque.git'
+gem 'burlesque', :git => 'https://github.com/gonzalo-bulnes/burlesque.git'
 ```
 
 Then install it by running:
