@@ -1,15 +1,19 @@
 require 'active_support/concern'
 
+# Public: Modulo para manejar logica de Administradores con Grupos y Roles,
+#         permite que los GRupos y Roles puedan ser asignado a un 'Administrador',
+#         y este 'Administrador' puede ser cualquier modelo que incluya este modulo
+#
 module Burlesque
   module Admin
     extend ActiveSupport::Concern
 
     included do
-      has_many        :authorizations,      as: :authorizable,    dependent: :destroy
-      has_many        :roles,          through: :authorizations
+      has_many        :admin_roles,      as: :authorizable, dependent: :destroy, class_name: Burlesque::AdminRole
+      has_many        :roles,       through: :admin_roles, class_name: Burlesque::Role
 
-      has_many        :admin_groups,        as: :adminable,       dependent: :destroy
-      has_many        :groups,         through: :admin_groups, after_remove: :remove_roles_from_admin
+      has_many        :admin_groups,      as: :adminable,       dependent: :destroy, class_name: Burlesque::AdminGroup
+      has_many        :groups,       through: :admin_groups, after_remove: :remove_roles_from_admin, class_name: Burlesque::Group
 
       attr_accessible :group_ids,
                       :role_ids
@@ -58,14 +62,14 @@ module Burlesque
       def group_ids=(ids)
         ids.each do |group_id|
           if group_id.presence
-            group = ::Group.find(group_id)
+            group = ::Burlesque::Group.find(group_id)
             self.groups << group unless self.groups.include?(group)
           end
         end
 
         to_deletes = []
         self.groups.each do |group|
-          to_deletes << group unless ids.include?(group.id.to_s)# or ids.include?(group.id)
+          to_deletes << group unless ids.include?(group.id) or ids.include?(group.id.to_s)
         end
 
         to_deletes.each do |group|
@@ -83,14 +87,14 @@ module Burlesque
       def role_ids=(ids)
         ids.each do |role_id|
           if role_id.presence
-            role = ::Role.find(role_id)
+            role = ::Burlesque::Role.find(role_id)
             self.roles << role unless self.role?(role)
           end
         end
 
         to_deletes = []
         self.roles.each do |role|
-          to_deletes << role unless ids.include?(role.id.to_s) or self.role_in_groups?(role)# or ids.include?(role.id)
+          to_deletes << role unless ids.include?(role.id) or ids.include?(role.id.to_s) or self.role_in_groups?(role)
         end
 
         to_deletes.each do |role|
@@ -106,8 +110,8 @@ module Burlesque
       # Returns nothing.
       def remove_roles_from_admin group
         group.roles.each do |role|
-          if authorizations.map(&:role).include?(role) and not role_in_groups?(role.name)
-            authorizations.find_by_role_id(role.id).destroy
+          if admin_roles.map(&:role).include?(role) and not role_in_groups?(role.name)
+            admin_roles.find_by_role_id(role.id).destroy
           end
         end
       end

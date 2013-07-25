@@ -1,8 +1,7 @@
-require "burlesque/admin_group"
-require "burlesque/authorization"
-require "burlesque/group"
-require "burlesque/role"
-require "burlesque/role_group"
-require "burlesque/locale"
 require "burlesque/admin"
+require "burlesque/engine"
+require "burlesque/locale"
 require "burlesque/version"
+
+module Burlesque
+end

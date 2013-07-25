@@ -21,12 +21,21 @@ bundle install
 After, bootstrap your Rails app, for example:
 
 ```
-rails generate burlesque:install
+rake burlesque:install:migrations
 rake db:migrate
 ```
 
+If you would like to run migrations only from Burlesque engine, you can do it by specifying SCOPE:
+
+```
+rake db:migrate SCOPE=burlesque
+```
+
 Finally, in model that you need burlesque:
-  include Burlesque::Admin
+
+```
+include Burlesque::Admin
+```
 
 
 
