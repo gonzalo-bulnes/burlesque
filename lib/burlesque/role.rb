@@ -1,5 +1,11 @@
 require 'active_support/concern'
 
+
+# encoding: utf-8
+
+# Public: Modulo que maneja Roles.
+#         Un Role es un permiso que permite a un usuario a realizar una determinada acción sobre un modelo
+#
 module Burlesque
   module Role
     extend ActiveSupport::Concern

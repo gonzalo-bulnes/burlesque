@@ -18,12 +18,17 @@ Then install it by running:
 bundle install
 ```
 
-Finally, bootstrap your Rails app, for example:
+After, bootstrap your Rails app, for example:
 
 ```
 rails generate burlesque:install
 rake db:migrate
 ```
+
+Finally, in model that you need burlesque:
+  include Burlesque::Admin
+
+
 
 CanCan
 ------
@@ -47,3 +52,8 @@ end
 ```
 
   [cancan]: https://github.com/ryanb/cancan
+
+Todo
+----
+
+Rake task for burlesque admin module inclusion.

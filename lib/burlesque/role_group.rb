@@ -1,5 +1,9 @@
 require 'active_support/concern'
 
+# encoding: utf-8
+
+# Public: Modulo intermedio, permite que un Role pueda ser asignado a un Grupo
+#
 module Burlesque
   module RoleGroup
     extend ActiveSupport::Concern

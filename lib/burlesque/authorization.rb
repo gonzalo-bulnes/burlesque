@@ -1,4 +1,10 @@
 require 'active_support/concern'
+
+# encoding: utf-8
+
+# Public: Modelo intermedio, permite que un Role pueda ser asignado a un 'Administrador',
+#         Este administrador puede ser cualquier modelo que incluya el modulo 'Burlesque::Admin'
+#
 module Burlesque
   module Authorization
     extend ActiveSupport::Concern

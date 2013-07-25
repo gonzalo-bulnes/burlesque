@@ -1,5 +1,9 @@
 require 'active_support/concern'
 
+# encoding: utf-8
+
+# Public: Modelo que maneja Grupos
+#
 module Burlesque
   module Group
     extend ActiveSupport::Concern
