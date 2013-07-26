@@ -51,7 +51,12 @@ module Burlesque
     #
     # Returns Constant.
     def resource_class
-      name.split('#', 2).first.pluralize.classify.constantize
+      model_name = name.split('#', 2).first
+      begin
+        model_name.pluralize.classify.constantize
+      rescue
+        model_name.to_sym
+      end
     end
 
     # Public: Entrega la accion asociada al rol.
