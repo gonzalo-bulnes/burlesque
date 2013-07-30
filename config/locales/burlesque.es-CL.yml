@@ -16,6 +16,7 @@
     attributes:
       role:
         name: Nombre
+        groups: Grupos
         created_at: Creado
         updated_at: Última actualización
       group:
