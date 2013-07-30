@@ -20,8 +20,8 @@ module Burlesque
 
     scope :action,        lambda { |action| where('name LIKE ?',     "%#{SPLITER}#{action}")     }
     scope :not_action,    lambda { |action| where('name NOT LIKE ?', "%#{SPLITER}#{action}")     }
-    scope :resource,      lambda { |model|  where('name LIKE ?',     "#{model.to_s}#{SPLITER}%") }
-    scope :not_resource,  lambda { |model|  where('name NOT LIKE ?', "#{model.to_s}#{SPLITER}%") }
+    scope :resource,      lambda { |model|  where('name LIKE ?',     "#{model.to_s.underscore}#{SPLITER}%") }
+    scope :not_resource,  lambda { |model|  where('name NOT LIKE ?', "#{model.to_s.underscore}#{SPLITER}%") }
 
     # Public: Relacion a muchos usuarios
     #

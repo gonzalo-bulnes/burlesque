@@ -1,62 +1,52 @@
 # Burlesque
 
-Create roles and group structure for any model, also considers 3 _join_ tables that might be.
-
+Create roles and groups structures for any model, also creates the 3 _join_ tables.
 
 ## Installation
 
+In order to use the generator, add the gem to your project's `Gemfile` as follows:
 
-Before you can use the generator, add the gem to your project's Gemfile as follows:
-
-```
+```ruby
 gem 'burlesque'
 ```
 
 Then install it by running:
 
-```
+```bash
 bundle install
 ```
 
-After, bootstrap your Rails app, for example:
+Then bootstrap your Rails app:
 
-```
+```bash
 rake burlesque:install:migrations
 rake db:migrate
 ```
 
-If you would like to run migrations only from Burlesque engine, you can do it by specifying SCOPE:
+Note that if you want to run **only** the Burlesque migrations, you can use the `SCOPE` option:
 
-```
+```bash
 rake db:migrate SCOPE=burlesque
 ```
 
-Finally, in model that you need burlesque:
+Finally, enable Burlesque in each model:
 
-```
-include Burlesque::Admin
-```
+```ruby
+class User < ActiveRecord::Base
+  include Burlesque::Admin
 
-This enables in model that include `Burlesque::Admin` module, can be assigned `Burlesque::Groups` and `Burlesque::Roles'.
+  # ...
+end
+```
 
 ## Defining Role's
 
-You can define/create roles using:
+You can define/create all RESTful roles at once with:
 
 ```
-Role.for 'user'
-```
-
-ó
-
-```
-Role.for :user
-```
-
-ó
-
-```
-Role.for User
+Burlesque::Role.for 'user' # String, or
+Burlesque::Role.for :user  # Symbol, or
+Burlesque::Role.for User   # Constant
 ```
 
 This will create the following authorizations:
@@ -71,61 +61,65 @@ Destroy | User     | Can delete a User
 
 ## Defining Group's
 
-Para crear un `Burlesque::Group` usted puede utilizar la forma que mejor le parezca, `Burlesuque` solo lo obliga a que defina los nombre de forma unica, quiza usted deba hacerlo de la siguiente forma.
-
-To create a `Burlesque::Group` you can use as you see fit, `Burlesuque` only forces him to define the name unique way, maybe you should do it this way:
+Group names must be unique. The best way to define Burlesque groups is:
 
 ```
-Burlesque::Group.find_or_create_by_name('Administrator')
+Burlesque::Group.find_or_create_by_name('Admin')
 ```
 
 ## Group's and Role's
 
-To assign an id list of `Burlesque::Role` for a `Burlesque::Group` you can:
+To assign a list of `Burlesque::Role` identifiers to a `Burlesque::Group` just do:
 
-```
-groupo.push_roles [role]  # Where role is an instance of a `Burlesque::Role`
+```ruby
+group = Burlesque::Group.find_by_name('Admin')
+group.push_roles [role, another_role]  # role and antoher_role are instances of Burlesque::Role
 ```
 
-This ensures that you will only be assigned roles only way to `Burlesque::Group`, If you want to assign the groups on your own, you can also do it, but before you assign them is necessary to check that the `Burlesque::Role` not already assigned, otherwise it will rise the exception `ActiveRecord::RecordInvalid`.
+The `push_roles` method ensures the roles are only added once to the group. If you want to assign the groups by yourself, please take care with that. Otherwise, Burlesque will raise an `ActiveRecord::RecordInvalid` exception.
 
 
 ## Utility functions
 
-Assuming you included **Burlesque** in your model `User`:
+Assuming you enabled **Burlesque** in your model `User`:
 
 ### Questions
 
-To see if a user has a `Burlesque::Group`:
+Ask for groups:
 
-```
-user.group?(group)  # group -> Where groups is an instance or name of the `Burlesque::Group` to check
-```
-
-To see if a user has a `Burlesque::Role`:
-
-```
-user.role?(role)  # role -> Where role is an instance or name of the `Burlesque::Role` to check
+```ruby
+user.group?(group)   # group is an instance of Burlesque::Group
+user.group?('Admin') # it also works with groups names
 ```
 
-Since a user may have `Burlesque::Role` without necessarily belonging to a `Burlesque::Group`, you probably want to consult its a role that is a product of belonging to a `Burlesque::Group` or not.
+Ask for roles:
 
+```ruby
+user.role?(role)         # role is an instance of Burlesque::Role
+user.role?('all#manage') # again, it also works with names
 ```
-role_in_groups?(role)  # role -> Where role is an instance or name of the `Burlesque::Role` to check
+
+Since an user may have `Burlesque::Role` without necessarily belonging to a `Burlesque::Group`, you may want to know if a given _role_ is provided by the belonging to a `Burlesque::Group`, or not.
+
+```ruby
+user.role_in_groups?(role)         # role is an instance of Burlesque::Role
+user.role_in_groups?('all#manage')
 ```
 
 ### MassAssignment
 
-To assign a list of `Burlesque::Group` by id to a `User`:
+To assign a list of groups to an user:
 
-```
-user.group_ids=(ids)
+```ruby
+ids = [1, 3, 4]  # groups identifiers
+user.group_ids = (ids)
 ```
 
-To assign a list of `Burlesque::Role` by id to a `User`:
+To assign a list of roles to an user:
 
-```
-user.role_ids=(ids)
+```ruby
+ids = [6, 7, 9]  # roles identifiers
+user.role_ids = (ids)
 ```
 
 
@@ -140,62 +134,76 @@ not_action    | To search for `Burlesque::Role` that are not associated with the
 resource      | To search for `Burlesque::Role` that are linked to a resource in question
 not_resource  | To search for `Burlesque::Role` that are not linked to a resource in question
 
+Example:
+
+```ruby
+Burlesque::Role.action('read')   # String, or
+Burlesque::Role.action(:read)    # Symbol
+
+Burlesque::Role.resource('user') # String, or
+Burlesque::Role.resource(:user)  # Symbol, or
+Burlesque::Role.resource(User)   # Constant
+```
+
 # I18n
 
-If you want to translate their `Burlesque::Role` may use the function:
+If you want to translate the roles names, you can use the `translate_name` method:
 
-```
-role.translate_name()  #  Where role is an instance `Burlesque::Role` to be translated
-```
-
-This translates naturally using a `YML`, if you have only REST actions, maybe it is not necessary to translate the `Burlesque::Role`, just to have the definition of their models, and `Burlesque` provides translations for their `Burlesque::Role`:
-
-
-```
-Role.create(name: 'user#read'   ).translate_name()  ==>  'Read User'
-Role.create(name: 'user#create' ).translate_name()  ==>  'Create User'
-Role.create(name: 'user#update' ).translate_name()  ==>  'Read User'
-Role.create(name: 'user#destroy').translate_name()  ==>  'Destroy User'
-Role.create(name: 'user#manage' ).translate_name()  ==>  'Manage User'
+```ruby
+role = Burlesque::Role.action(:read).resource(:user)
+name = role.translate_name()  #  where role is an instance of Burlesque::Role to be translated
+# => 'Read User'
 ```
 
-Pero si usted desea cambiar esto usted puede crear un `YML` y definir sus propias traducciones, ejemplo para traducir al Español, (Recuerde traducir sus modelos en su archivo `YML`):
+The translation is handled by a YML file. If you only have RESTful actions, it may not be necessary to translate the roles by hand, as Burlesque will automagically use the model translations to compose human-friendly strings:
 
-But if you want to change this you can create a `YML` and define their own translations, eg to translate into Spanish, (Remember translate their models into your `YML`):
 
+```ruby
+Burlesque::Role.create(name: 'user#read'   ).translate_name()  ==>  Read User
+Burlesque::Role.create(name: 'user#create' ).translate_name()  ==>  Create User
+Burlesque::Role.create(name: 'user#update' ).translate_name()  ==>  Read User
+Burlesque::Role.create(name: 'user#destroy').translate_name()  ==>  Destroy User
+Burlesque::Role.create(name: 'user#manage' ).translate_name()  ==>  Manage User
 ```
+
+However, you are free to override the Burlesque defaults (e.g. for localization, here in Spanish):
+
+```yaml
 es:
   authorizations:
     read: Leer
-    show: Mostrar
     create: Crear
     update: Actualizar
     destroy: Eliminar
     manage: Administrar
 ```
 
-```
-Role.create(name: 'user#read'   ).translate_name()  ==>  'Leer Usuarios'
-Role.create(name: 'user#create' ).translate_name()  ==>  'Crear Usuarios'
-Role.create(name: 'user#update' ).translate_name()  ==>  'Actualizar Usuarios'
-Role.create(name: 'user#destroy').translate_name()  ==>  'Eliminar Usuarios'
-Role.create(name: 'user#manage' ).translate_name()  ==>  'Administrar Usuarios'
+```ruby
+# Provided Spanish is the default language of your app
+Burlesque::Role.create(name: 'user#read'   ).translate_name()  ==>  Leer Usuarios
+Burlesque::Role.create(name: 'user#create' ).translate_name()  ==>  Crear Usuarios
+Burlesque::Role.create(name: 'user#update' ).translate_name()  ==>  Actualizar Usuarios
+Burlesque::Role.create(name: 'user#destroy').translate_name()  ==>  Eliminar Usuarios
+Burlesque::Role.create(name: 'user#manage' ).translate_name()  ==>  Administrar Usuarios
 ```
 
 If what you want is to change the translation of a single `Burlesque::Role`, you can:
+Finally, in case you were not satisfied by the generated translations, you can define your own:
 
-```
+```yaml
 es:
   authorizations:
-    user#read: My List Users
+    user#read: 'Read Awesome Users'
 ```
 
-```
-Role.create(name: 'user#read').translate_name()  ==>  'My List Users'
+```ruby
+Burlesque::Role.action(:read).resource(:user).translate_name()  ==>  Read Awesome Users
+Burlesque::Role.find_by_name('user#read').translate_name()      ==>  Read Awesome Users
 ```
 
 # Contributing
 
+TODO
 
 # CanCan
 
