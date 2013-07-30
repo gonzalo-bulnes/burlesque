@@ -1,6 +1,6 @@
 # Burlesque
 
-Crea estructura de roles y grupos para cualquier modelo, considera además las 3 tablas de _join_ que pudiesen darse.
+Create roles and group structure for any model, also considers 3 _join_ tables that might be.
 
 
 ## Installation
@@ -37,11 +37,11 @@ Finally, in model that you need burlesque:
 include Burlesque::Admin
 ```
 
-Esto habilita en el modelo que incluye el modulo `Burlesque::Admin` que se pueda asignar `Burlesque::Groups` y `Burlesque::Roles`.
+This enables in model that include `Burlesque::Admin` module, can be assigned `Burlesque::Groups` and `Burlesque::Roles'.
 
-## Definicion de Roles
+## Defining Role's
 
-Usted puede definir roles:
+You can define/create roles using:
 
 ```
 Role.for 'user'
@@ -59,68 +59,70 @@ Role.for :user
 Role.for User
 ```
 
-Esto crear las siguiente autorizaciones:
+This will create the following authorizations:
 
 Action  | Resource | Description
 :-------|:---------|:-----------
-Read    | User     | Puede ver lista y detalle de un Usuario
-Create  | User     | Puede crear un nuevo Usuario (:new, :create)
-Update  | User     | Puede actualizar un Usuario (:edit, :update)
-Destroy | User     | Puede eliminar un Usuario
+Read    | User     | Can see list of all Users or single User details
+Create  | User     | Can create a new User (:new, :create)
+Update  | User     | Can Update a User (:edit, :update)
+Destroy | User     | Can delete a User
 
 
-## Definicion de Grupos
+## Defining Group's
 
 Para crear un `Burlesque::Group` usted puede utilizar la forma que mejor le parezca, `Burlesuque` solo lo obliga a que defina los nombre de forma unica, quiza usted deba hacerlo de la siguiente forma.
+
+To create a `Burlesque::Group` you can use as you see fit, `Burlesuque` only forces him to define the name unique way, maybe you should do it this way:
 
 ```
 Burlesque::Group.find_or_create_by_name('Administrator')
 ```
 
-## Grupos y Roles
+## Group's and Role's
 
-Para asignar una lista de Roles por id a un `Burlesque::Group` usted puede:
+To assign an id list of `Burlesque::Role` for a `Burlesque::Group` you can:
 
 ```
-groupo.push_roles [role]  # Donde role es una instancia de un Rol
+groupo.push_roles [role]  # Where role is an instance of a `Burlesque::Role`
 ```
 
-Esto le asegura que los roles solo seran asignados de forma unica al `Burlesque::Group`, si usted quiere asignar los grupos por su cuenta, tambien puede hacerlo, pero antes de asignalos es necesario que revise que el `Burlesque::Role` no esta ya asignado, de lo contrario se levantara la excepcion `ActiveRecord::RecordInvalid`.
+This ensures that you will only be assigned roles only way to `Burlesque::Group`, If you want to assign the groups on your own, you can also do it, but before you assign them is necessary to check that the `Burlesque::Role` not already assigned, otherwise it will rise the exception `ActiveRecord::RecordInvalid`.
 
 
+## Utility functions
 
-## Funciones de Ayuda
-
-Asumiendo que usted incluyo **Burlesque** en su modelo `User`:
+Assuming you included **Burlesque** in your model `User`:
 
 ### Questions
-Para consultar si un usuario tiene un *Grupo* puntual:
+
+To see if a user has a `Burlesque::Group`:
 
 ```
-user.group?(group)  # group -> instancia o nombre del groupo a consultar
+user.group?(group)  # group -> Where groups is an instance or name of the `Burlesque::Group` to check
 ```
 
-Para consultar si un usuario tiene un Rol puntual
+To see if a user has a `Burlesque::Role`:
 
 ```
-user.role?(role)  # role -> una instancia o nombre del rol a consultar
+user.role?(role)  # role -> Where role is an instance or name of the `Burlesque::Role` to check
 ```
 
-Dado que un usuario puede tener Roles sin necesariamente pertenecer a un groupo, es probable que usted quiera consultar su un Rol que es producto de pertenecer a un Grupo o no.
+Since a user may have `Burlesque::Role` without necessarily belonging to a `Burlesque::Group`, you probably want to consult its a role that is a product of belonging to a `Burlesque::Group` or not.
 
 ```
-role_in_groups?(role)  # role -> una instancia o nombre del rol a consultar
+role_in_groups?(role)  # role -> Where role is an instance or name of the `Burlesque::Role` to check
 ```
 
 ### MassAssignment
 
-Para asignar una lista de Grupos por id a un `User`:
+To assign a list of `Burlesque::Group` by id to a `User`:
 
 ```
 user.group_ids=(ids)
 ```
 
-Para asignar una lista de Roles por id:
+To assign a list of `Burlesque::Role` by id to a `User`:
 
 ```
 user.role_ids=(ids)
@@ -129,24 +131,25 @@ user.role_ids=(ids)
 
 ### Search
 
-Usted puede bucar Roles facilmente utilizando los SCOPE de busqueda definidos y combinarlos de la forma que necesite
+You can search `Burlesque::Role` using defined SCOPE search and combine them any way you need.
 
 Scope         | Description
 :-------------|:-----------
-action        | Para buscar Roles que estan asociados a una misma accion.
-not_action    | Para buscar Roles que no estan asociados a una misma accion.
-resource      | Para buscar Roles que estan vinculados a un recurso en cuestion
-not_resource  | Para buscar Roles que no estan vinculados a un recurso en cuestion
+action        | To search for `Burlesque::Role` that are associated with the same action.
+not_action    | To search for `Burlesque::Role` that are not associated with the same action.
+resource      | To search for `Burlesque::Role` that are linked to a resource in question
+not_resource  | To search for `Burlesque::Role` that are not linked to a resource in question
 
 # I18n
 
-Si usted desea traducir sus Roles puede utilizar la funcion:
+If you want to translate their `Burlesque::Role` may use the function:
 
 ```
-role.translate_name()  # Donde role es una instancia de un Rol
+role.translate_name()  #  Where role is an instance `Burlesque::Role` to be translated
 ```
 
-Esta traduce de forma natural utilizando un archivo `YML, si usted tiene solo acciones REST, no es necesario traducir los roles, basta que tenga la definicion de sus modelos, y burlesque le provee traducciones para sus Roles, ejemplo:
+This translates naturally using a `YML`, if you have only REST actions, maybe it is not necessary to translate the `Burlesque::Role`, just to have the definition of their models, and `Burlesque` provides translations for their `Burlesque::Role`:
+
 
 ```
 Role.create(name: 'user#read'   ).translate_name()  ==>  'Read User'
@@ -157,6 +160,8 @@ Role.create(name: 'user#manage' ).translate_name()  ==>  'Manage User'
 ```
 
 Pero si usted desea cambiar esto usted puede crear un `YML` y definir sus propias traducciones, ejemplo para traducir al Español, (Recuerde traducir sus modelos en su archivo `YML`):
+
+But if you want to change this you can create a `YML` and define their own translations, eg to translate into Spanish, (Remember translate their models into your `YML`):
 
 ```
 es:
@@ -177,16 +182,16 @@ Role.create(name: 'user#destroy').translate_name()  ==>  'Eliminar Usuarios'
 Role.create(name: 'user#manage' ).translate_name()  ==>  'Administrar Usuarios'
 ```
 
-Si lo que usted desea es cambiar la traduccion de un solo Rol, usted puede:
+If what you want is to change the translation of a single `Burlesque::Role`, you can:
 
 ```
 es:
   authorizations:
-    user#read: List Users
+    user#read: My List Users
 ```
 
 ```
-Role.create(name: 'user#read').translate_name()  ==>  'List Users'
+Role.create(name: 'user#read').translate_name()  ==>  'My List Users'
 ```
 
 # Contributing
