@@ -61,6 +61,36 @@ Role.for User
 
 Esto crear las siguiente autorizaciones:
 
+<table>
+  <thead>
+    <th>Action</th>
+    <th>Resource</th>
+    <th>Description</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Read</td>
+      <td>User</td>
+      <td>Puede ver lista y detalle de un Usuario</td>
+    </tr>
+    <tr>
+      <td>Create</td>
+      <td>User</td>
+      <td>Puede crear un nuevo Usuario (:new, :create)</td>
+    </tr>
+    <tr>
+      <td>Update</td>
+      <td>User</td>
+      <td>Puede actualizar un Usuario (:edit, :update)</td>
+    </tr>
+    <tr>
+      <td>Destroy</td>
+      <td>User</td>
+      <td>Puede eliminar un Usuario</td>
+    </tr>
+  </tbody>
+</table>
+
 Action  | Resource | Description
 :-------|:---------|:-----------
 Read    | User     | Puede ver lista y detalle de un Usuario
@@ -71,9 +101,15 @@ Destroy | User     | Puede eliminar un Usuario
 
 ## Definicion de Grupos
 
-Los `Burlesque::Group` pueden ser definidos de la forma que mejor le parezca, solo es importante saber solo pueden ser definidos de forma unica.
+Para crear un `Burlesque::Group` usted puede utilizar la forma que mejor le parezca, `Burlesuque` solo lo obliga a que defina los nombre de forma unica, quiza usted deba hacerlo de la siguiente forma.
 
-Por otro lado, para asignar una lista de Roles por id a un `Burlesque::Group` usted puede:
+```
+Burlesque::Group.find_or_create_by_name('Administrator')
+```
+
+## Grupos y Roles
+
+Para asignar una lista de Roles por id a un `Burlesque::Group` usted puede:
 
 ```
 groupo.push_roles [role]  # Donde role es una instancia de un Rol
