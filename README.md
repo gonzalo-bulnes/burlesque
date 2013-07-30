@@ -1,3 +1,10 @@
+Action  | Resource | Description
+:-------|:---------|:-----------
+Read    | User     | Puede ver lista y detalle de un Usuario
+Create  | User     | Puede crear un nuevo Usuario (:new, :create)
+Update  | User     | Puede actualizar un Usuario (:edit, :update)
+Destroy | User     | Puede eliminar un Usuario
+
 Burlesque
 =========
 
