@@ -49,6 +49,9 @@ module Burlesque
       rescue
         translate = I18n.t(action_sym, scope: :authorizations) + ' ' + resource_class.to_s
       end
+
+      return translate unless translate.include?('translation missing:')
+      return name
     end
 
     # Public: Entrega el recurso asociado al rol.

@@ -59,6 +59,22 @@ Update  | User     | Can Update a User (:edit, :update)
 Destroy | User     | Can delete a User
 
 
+
+
+
+
+Si tus acciones no son RESTful:
+
+
+Burlesque::Role.find_or_crate_by_name 'user#confirm' # Para poder confirmar usuario
+Burlesque::Role.find_or_crate_by_name 'user#lock'    # Para poder bloquear un  usuario
+
+Burlesque::Role.find_or_crate_by_name 'all#manage' # Para un rol de Super Administrador
+
+
+
+
+
 ## Defining Group's
 
 Group names must be unique. The best way to define Burlesque groups is:
@@ -131,8 +147,8 @@ Scope         | Description
 :-------------|:-----------
 action        | To search for `Burlesque::Role` that are associated with the same action.
 not_action    | To search for `Burlesque::Role` that are not associated with the same action.
-resource      | To search for `Burlesque::Role` that are linked to a resource in question
-not_resource  | To search for `Burlesque::Role` that are not linked to a resource in question
+resource      | To search for `Burlesque::Role` that are linked to a resource in question.
+not_resource  | To search for `Burlesque::Role` that are not linked to a resource in question.
 
 Example:
 
@@ -180,11 +196,11 @@ es:
 
 ```ruby
 # Provided Spanish is the default language of your app
-Burlesque::Role.create(name: 'user#read'   ).translate_name()  ==>  Leer Usuarios
-Burlesque::Role.create(name: 'user#create' ).translate_name()  ==>  Crear Usuarios
-Burlesque::Role.create(name: 'user#update' ).translate_name()  ==>  Actualizar Usuarios
-Burlesque::Role.create(name: 'user#destroy').translate_name()  ==>  Eliminar Usuarios
-Burlesque::Role.create(name: 'user#manage' ).translate_name()  ==>  Administrar Usuarios
+Burlesque::Role.create(name: 'user#read'   ).translate_name()  ==>  Leer Usuario
+Burlesque::Role.create(name: 'user#create' ).translate_name()  ==>  Crear Usuario
+Burlesque::Role.create(name: 'user#update' ).translate_name()  ==>  Actualizar Usuario
+Burlesque::Role.create(name: 'user#destroy').translate_name()  ==>  Eliminar Usuario
+Burlesque::Role.create(name: 'user#manage' ).translate_name()  ==>  Administrar Usuario
 ```
 
 If what you want is to change the translation of a single `Burlesque::Role`, you can:
@@ -200,6 +216,17 @@ es:
 Burlesque::Role.action(:read).resource(:user).translate_name()  ==>  Read Awesome Users
 Burlesque::Role.find_by_name('user#read').translate_name()      ==>  Read Awesome Users
 ```
+
+
+
+# RSpect & FactoryGirl testing
+
+TODO - Define Groups and Roles factories
+TODO - Use factories into User's
+TODO - Testing
+
+
+
 
 # Contributing
 
