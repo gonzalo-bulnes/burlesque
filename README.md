@@ -61,36 +61,6 @@ Role.for User
 
 Esto crear las siguiente autorizaciones:
 
-<table>
-  <thead>
-    <th>Action</th>
-    <th>Resource</th>
-    <th>Description</th>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Read</td>
-      <td>User</td>
-      <td>Puede ver lista y detalle de un Usuario</td>
-    </tr>
-    <tr>
-      <td>Create</td>
-      <td>User</td>
-      <td>Puede crear un nuevo Usuario (:new, :create)</td>
-    </tr>
-    <tr>
-      <td>Update</td>
-      <td>User</td>
-      <td>Puede actualizar un Usuario (:edit, :update)</td>
-    </tr>
-    <tr>
-      <td>Destroy</td>
-      <td>User</td>
-      <td>Puede eliminar un Usuario</td>
-    </tr>
-  </tbody>
-</table>
-
 Action  | Resource | Description
 :-------|:---------|:-----------
 Read    | User     | Puede ver lista y detalle de un Usuario
