@@ -58,23 +58,6 @@ Create  | User     | Can create a new User (:new, :create)
 Update  | User     | Can Update a User (:edit, :update)
 Destroy | User     | Can delete a User
 
-
-
-
-
-
-Si tus acciones no son RESTful:
-
-
-Burlesque::Role.find_or_crate_by_name 'user#confirm' # Para poder confirmar usuario
-Burlesque::Role.find_or_crate_by_name 'user#lock'    # Para poder bloquear un  usuario
-
-Burlesque::Role.find_or_crate_by_name 'all#manage' # Para un rol de Super Administrador
-
-
-
-
-
 ## Defining Group's
 
 Group names must be unique. The best way to define Burlesque groups is:
@@ -216,17 +199,6 @@ es:
 Burlesque::Role.action(:read).resource(:user).translate_name()  ==>  Read Awesome Users
 Burlesque::Role.find_by_name('user#read').translate_name()      ==>  Read Awesome Users
 ```
-
-
-
-# RSpect & FactoryGirl testing
-
-TODO - Define Groups and Roles factories
-TODO - Use factories into User's
-TODO - Testing
-
-
-
 
 # Contributing
 
