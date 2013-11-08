@@ -5,15 +5,12 @@
 #
 module Burlesque
   class Role < ActiveRecord::Base
-    attr_accessible :name
-
     has_many :role_groups
     has_many :groups, through: :role_groups, dependent: :destroy
 
     has_many :admin_roles, dependent: :destroy
     # for has_many :admins relations see admins function
 
-    attr_accessible :name
     validates :name, presence: true, uniqueness: true
 
     SPLITER = '#'

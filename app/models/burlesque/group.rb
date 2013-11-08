@@ -10,8 +10,6 @@ module Burlesque
     has_many :admin_groups, dependent: :destroy
     # for has_many :admins relations see admins function
 
-    attr_accessible :name, :role_ids
-
     validates :name, presence: true, uniqueness: true
 
     # Public: Relacion a muchos usuarios
