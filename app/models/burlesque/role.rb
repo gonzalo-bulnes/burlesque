@@ -5,15 +5,12 @@
 #
 module Burlesque
   class Role < ActiveRecord::Base
-    attr_accessible :name
-
     has_many :role_groups
     has_many :groups, through: :role_groups, dependent: :destroy
 
     has_many :admin_roles, dependent: :destroy
     # for has_many :admins relations see admins function
 
-    attr_accessible :name
     validates :name, presence: true, uniqueness: true
 
     SPLITER = '#'
@@ -84,11 +81,11 @@ module Burlesque
     # Mejorar el retorno, para saber que paso, ej: si se agregaron los 5 roles o si ya existen
     def self.for model
       if model.class == String
-        resource = model.classify.constantize.model_name.underscore
+        resource = model.classify.constantize.model_name.to_s.underscore
       elsif model.class == Symbol
-        resource = model.to_s.classify.constantize.model_name.underscore
+        resource = model.to_s.classify.constantize.model_name.to_s.underscore
       elsif model.class == Class
-        resource = model.model_name.underscore
+        resource = model.model_name.to_s.underscore
       end
 
       if resource

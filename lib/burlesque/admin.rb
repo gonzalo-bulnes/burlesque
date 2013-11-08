@@ -14,9 +14,6 @@ module Burlesque
 
       has_many        :admin_groups,      as: :adminable,       dependent: :destroy, class_name: Burlesque::AdminGroup
       has_many        :groups,       through: :admin_groups, after_remove: :remove_roles_from_admin, class_name: Burlesque::Group
-
-      attr_accessible :group_ids,
-                      :role_ids
     end
 
     module InstanceMethods
